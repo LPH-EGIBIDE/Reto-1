@@ -79,7 +79,7 @@ function fillCircle(x, y, color) {
     var ctx = canvas.getContext("2d");
     ctx.beginPath();
     console.log("x: " + (canvas.width / 2 + (x - 3) * (60) * scale) + " y: " + (canvas.height / 2 + (y - 3) * (60) * scale));
-    ctx.arc(canvas.width / 2 + (x - 3) * (60) * scale, canvas.height / 2 + (y - 3) * (60) * scale, (28.5) * scale, 0, 2 * Math.PI);
+    ctx.arc(canvas.width / 2 + (x - 3) * (60) * scale, canvas.height / 2 + (y - 3) * (60) * scale, (30) * scale, 0, 2 * Math.PI);
     ctx.fillStyle = color;
     ctx.fill();
     ctx.beginPath();

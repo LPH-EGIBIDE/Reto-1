@@ -58,6 +58,8 @@ li:hover {
 #contenido {
     margin: 0 auto;
     width: 75%;
+    min-height: max-content;
+    max-height: max-content;
 }
 
 @keyframes slide-bottom {

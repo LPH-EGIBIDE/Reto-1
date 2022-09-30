@@ -1,6 +1,14 @@
 const firstWidth = window.innerWidth;
 const firstHeight = window.innerHeight;
 var circles = [];
+var robot = {
+    x: 0,
+    y: 0,
+    color: "red",
+    hidden: false,
+    movingX: false,
+    movingY: false
+}
 var resizeTimer;
 var canvas = document.getElementById("canvas");
 var ctx = canvas.getContext("2d");
@@ -30,6 +38,105 @@ function createCanvas(scale) {
         }
     }
 }
+
+//Function to paint a robot and simulate the movement
+
+function makeRobotPath(x, y) {  
+    if (robot.movingX || robot.movingY) {
+        console.error("Robot is already moving" +x + " " + y);
+        return;
+    }
+    robot.movingX = true;
+    robot.movingY = true;
+    //Go to the x position from x = 0 to x = x
+    var xInterval = setInterval(function () {
+        //Go to x by steps of 1mm every 50ms
+        if (robot.x < x) {
+            robot.x++;
+        } else if (robot.x > x) {
+            robot.x--;
+        } else {
+            clearInterval(xInterval);
+            robot.movingX = false
+        }
+        positionRobot(robot.x, robot.y, true);
+    }, 30);
+    //When x is reached, go to y position from y = 0 to y = y
+    var yInterval = setInterval(function () {
+        //Go to y by steps of 1mm every 50ms
+        if (robot.y < y) {
+            robot.y++;
+        } else if (robot.y > y) {
+            robot.y--;
+        } else {
+            clearInterval(yInterval);
+            robot.movingY = false;
+        }
+        positionRobot(robot.x, robot.y, true);
+    }, 30);
+
+}
+
+function positionRobot(xmm, ymm, redraw) {
+    //Draw a image of a robot on the position x,y in mm
+    //First check if the robot is hidden
+    if (robot.hidden) {
+        return;
+    }
+    //Remove the robot from the canvas
+    if (redraw)
+        redrawCanvas();
+    //Transform the x,y that as if the real board is 180mm to real px
+    var canvas = document.getElementById("canvas");
+    let ctxl = canvas.getContext("2d");
+    var px = {
+        x: Math.ceil((xmm / 180) * canvas.width),
+        y: Math.ceil((ymm / 180) * canvas.height)
+    };
+
+
+    //Draw the robot
+    var robotPath = new Path2D(`M281.364,262.757c3.239-0.83,5.636-3.759,5.636-7.257v-32c0-4.142-3.357-7.5-7.5-7.5h-2.753l17.185-28.642
+	c0.029-0.048,0.051-0.098,0.078-0.146c0.073-0.128,0.143-0.259,0.209-0.392c0.045-0.091,0.089-0.183,0.13-0.276
+	c0.053-0.119,0.102-0.241,0.149-0.363c0.042-0.109,0.083-0.219,0.12-0.33c0.034-0.103,0.063-0.208,0.093-0.313
+	c0.037-0.131,0.074-0.261,0.103-0.394c0.019-0.086,0.034-0.173,0.05-0.261c0.028-0.15,0.056-0.3,0.074-0.451
+	c0.002-0.019,0.007-0.037,0.009-0.057L310.169,55h9.331c4.143,0,7.5-3.358,7.5-7.5V15h16.5c4.143,0,7.5-3.358,7.5-7.5
+	S347.643,0,343.5,0h-224c-4.143,0-7.5,3.358-7.5,7.5s3.357,7.5,7.5,7.5H136v32.5c0,4.142,3.357,7.5,7.5,7.5h9.331l15.221,129.376
+	c0.002,0.02,0.007,0.038,0.009,0.057c0.019,0.15,0.046,0.3,0.074,0.451c0.016,0.087,0.031,0.175,0.05,0.261
+	c0.03,0.132,0.066,0.263,0.103,0.394c0.03,0.105,0.059,0.21,0.093,0.313c0.037,0.111,0.078,0.22,0.12,0.33
+	c0.047,0.123,0.096,0.244,0.149,0.363c0.041,0.093,0.085,0.185,0.13,0.276c0.066,0.133,0.136,0.264,0.209,0.392
+	c0.028,0.048,0.05,0.099,0.078,0.146L186.253,216H183.5c-4.143,0-7.5,3.358-7.5,7.5v32c0,3.498,2.397,6.427,5.636,7.257
+	l-67.44,67.44c-1.772,1.773-2.542,4.315-2.051,6.774l24,120c0.701,3.506,3.779,6.029,7.354,6.029h56c4.143,0,7.5-3.358,7.5-7.5
+	V352.327l24.5-29.167l24.5,29.165V455.5c0,4.142,3.357,7.5,7.5,7.5h56c3.575,0,6.653-2.523,7.354-6.029l24-120
+	c0.491-2.459-0.278-5.001-2.051-6.774L281.364,262.757z M231.5,248H223v-17h17v17H231.5z M199.5,248H191v-17h8.488
+	c0.007,0,0.013,0.001,0.019,0.001c0.006,0,0.012-0.001,0.018-0.001H208v17H199.5z M255,231h8.475c0.006,0,0.012,0.001,0.018,0.001
+	c0.006,0,0.013-0.001,0.019-0.001H272v17h-8.5H255V231z M171.698,87H208v24.5c0,12.958,10.542,23.5,23.5,23.5s23.5-10.542,23.5-23.5
+	V87h36.302l-10.471,89h-98.662L171.698,87z M240,111.5c0,4.687-3.813,8.5-8.5,8.5s-8.5-3.813-8.5-8.5V55h17V111.5z M293.066,72H255
+	V55h40.066L293.066,72z M151,15h161v25H151V15z M208,55v17h-38.066l-2-17H208z M188.747,191h85.506l-15,25h-55.506L188.747,191z
+	 M168,351.5V448h-18.352l-22.007-110.035L202.606,263H224v45.768L194.404,344H175.5C171.357,344,168,347.358,168,351.5z M192,448h-9
+	v-89h9V448z M271,359h9v89h-9V359z M313.352,448H295v-96.5c0-4.142-3.357-7.5-7.5-7.5h-18.903L239,308.768V263h21.394l74.965,74.965
+	L313.352,448z`);
+    //Set the position of the robot and center the image
+    console.log("Setting position to" + px.x + "," + px.y);
+    //Calculate the robot height
+
+    ctxl.translate( (px.x - (canvas.width * 0.053) ), (px.y - (canvas.height * 0.053) ) );
+    //Draw a 5x5 dot at the robot's position
+    //ctx.fillRect(-2.5, -2.5, 5, 5);
+    //Paint it black
+    ctxl.fillStyle = "black";
+    //Resize the robot to 20px
+    ctxl.scale(0.2, 0.2);
+    //set stroke color to black 
+    ctxl.strokeStyle = "red";
+    //set stroke width to 2
+    ctxl.lineWidth = 10;
+    ctxl.stroke(robotPath);
+    //Restore the position
+    ctxl.setTransform(1, 0, 0, 1, 0, 0);
+    ctxl.lineWidth = 2 * scale;
+    ctxl.strokeStyle = "black";
+} 
 
 function setLetterCenterCircle(x, y, letter) {
     var cirX = (canvas.width / 2 + (x - 3) * (60) * scale);
@@ -70,7 +177,7 @@ function drawImageOnCircle(x, y, imagePath) {
 
 }
 
-function  generateStateCircle(x, y, color){
+function generateStateCircle(x, y, color) {
     //generate a 28.5 radius circle
     ctx.beginPath();
     ctx.arc(canvas.width / 2 + (x - 3) * (60) * scale, canvas.height / 2 + (y - 3) * (60) * scale, (28.5) * scale, 0, 2 * Math.PI);
@@ -100,7 +207,7 @@ function  generateStateCircle(x, y, color){
     ctx.lineWidth = 2 * scale;
     ctx.arc(canvas.width / 2 + (x - 3) * (60) * scale, canvas.height / 2 + (y - 3) * (60) * scale, (12) * scale, 0, 2 * Math.PI);
     ctx.stroke();
-    
+
 }
 
 
@@ -110,7 +217,7 @@ function  generateStateCircle(x, y, color){
 function fillCircle(x, y, color) {
     ctx.beginPath();
     console.log("x: " + (canvas.width / 2 + (x - 3) * (60) * scale) + " y: " + (canvas.height / 2 + (y - 3) * (60) * scale));
-    ctx.arc(canvas.width / 2 + (x - 3) * (60) * scale, canvas.height / 2 + (y - 3) * (60) * scale, (28,5) * scale, 0, 2 * Math.PI);
+    ctx.arc(canvas.width / 2 + (x - 3) * (60) * scale, canvas.height / 2 + (y - 3) * (60) * scale, (28, 5) * scale, 0, 2 * Math.PI);
     ctx.fillStyle = color;
     ctx.fill();
     ctx.beginPath();
@@ -127,13 +234,17 @@ function fillCircle(x, y, color) {
         });
     } else {
         //If the circle is already there, change its color and update the array
-        circleFilter[0].color = color;
-        circles = circles.filter(circle => circle.x != x || circle.y != y);
-        circles.push(circleFilter[0]);
-        console.log("Updated circle" + circleFilter[0].x + " " + circleFilter[0].y + " " + circleFilter[0].color);
+        // check if color is the same
+        if (circleFilter[0].color != color) {
+            circleFilter[0].color = color;
+            circles = circles.filter(circle => circle.x != x || circle.y != y);
+            circles.push(circleFilter[0]);
+            console.log("Updated circle" + circleFilter[0].x + " " + circleFilter[0].y + " " + circleFilter[0].color);
+        }
     }
     generateStateCircle(x, y, color);
     //setLetterCenterCircle(x,y,letters[Math.random() * letters.length | 0]);
+    positionRobot(robot.x, robot.y, false)
 }
 
 function unFillCircle(x, y) {
@@ -155,6 +266,7 @@ function unFillCircle(x, y) {
 
     //Remove the circle from the array of objects
     circles = circles.filter(circle => circle.x != x || circle.y != y);
+    positionRobot(robot.x, robot.y, false)
 }
 
 //paint a pixel at x,y with color
@@ -167,7 +279,7 @@ function getCircleClicked(x, y) {
             cirX = (canvas.width / 2 + (i - 2) * (60) * scale);
             cirY = (canvas.height / 2 + (j - 2) * (60) * scale);
             if ((x + (29) * scale > cirX && x - (29) * scale < cirX) && (y + (29) * scale > cirY && y - (29) * scale < cirY)) {
-                return [i + 1, j + 1];
+                return [i + 1, j + 1, cirX, cirY];
             }
         }
     }
@@ -193,68 +305,104 @@ canvas.addEventListener("click", function (event) {
         y: Math.ceil(xy.y * 180 / canvas.height)
     };
 
+    
+
     console.log("x: " + xy.x + " y: " + xy.y);
     console.log("mmX: " + mm.x + " mmY: " + mm.y);
     var circle = getCircleClicked(xy.x, xy.y);
     console.log("circleX: " + circle[0] + " circleY: " + circle[1]);
     //If circle is filled unfill it, else fill it
-    var circleFilter = circles.filter(circleF => circleF.x == circle[0] && circleF.y == circle[1]);
-    if (circleFilter.length == 0) {
-        Swal.fire({
-            html: '<h1>Que tipo de chocolate quieres?</h1>',
-            showDenyButton: true,
-            showCancelButton: true,
-            confirmButtonText: 'Blanco',
-            denyButtonText: `Negro`,
-            cancelButtonText: "Cancelar",
-          }).then((result) => {
-            if (result.isConfirmed) {
-                fillCircle(circle[0], circle[1], "white");
-            } else if (result.isDenied) {
-                fillCircle(circle[0], circle[1], "black");
-            }
-          })
-    } else {
-        unFillCircle(circle[0], circle[1]);
-    }
-
+    //var 
+    var mmCir = {
+        x: Math.ceil(circle[2] * 180 / canvas.width),
+        y: Math.ceil(circle[3] * 180 / canvas.height)
+    };
+    simulateRobot(circle, mmCir);
 
 });
 
-    function randomFill() {
-        var i = Math.random() * 5 | 0;
-        var j = Math.random() * 5 | 0;
-        var color = "rgb(" + (Math.random() * 255 | 0) + "," + (Math.random() * 255 | 0) + "," + (Math.random() * 255 | 0) + ")";
-        var circleFilter = circles.filter(circleF => circleF.x == i + 1 && circleF.y == j + 1);
-        if (circleFilter.length == 0) {
-            fillCircle(i + 1, j + 1, color);
+function randomFill() {
+    var i = Math.random() * 5 | 0;
+    var j = Math.random() * 5 | 0;
+    var color = "rgb(" + (Math.random() * 255 | 0) + "," + (Math.random() * 255 | 0) + "," + (Math.random() * 255 | 0) + ")";
+    var circleFilter = circles.filter(circleF => circleF.x == i + 1 && circleF.y == j + 1);
+    if (circleFilter.length == 0) {
+        fillCircle(i + 1, j + 1, color);
+    } else {
+        unFillCircle(i + 1, j + 1);
+    }
+}
+
+function redrawCanvas() {
+    //Get the new width and height of the window
+    const newWidth = window.innerWidth;
+    const newHeight = window.innerHeight;
+    //Get the new scale to fit the screen
+    scale = Math.min(newWidth, newHeight) / 314;
+    //Create the canvas with the new scale
+    createCanvas(scale);
+    //Paint the circles that were already colored
+    for (var i = 0; i < circles.length; i++) {
+        console.log(circles[i].x + " " + circles[i].y + " " + circles[[i]].color);
+        if (circles[i].color != "grey") {
+            console.log("Redrawing circle " + circles[i].x + " " + circles[i].y + " " + circles[i].color);
+            fillCircle(circles[i].x, circles[i].y, circles[i].color);
         } else {
-            unFillCircle(i + 1, j + 1);
+            unFillCircle(circles[i].x, circles[i].y);
         }
     }
+}
+
+
+function simulateRobot(circle, mmCir) {
+    var x = circle[0];
+    var y = circle[1];
+    //return if robot is moving
+    if (robot.movingX || robot.movingY) {
+        return;
+    }
+    //Unhide the robot
+    robot.hidden = false;
+    //If the robot is not already in the circle, move it
+    if (robot.x != x || robot.y != y) {
+        makeRobotPath(mmCir.x, mmCir.y);
+        //Calculate time to simulate the robot moving if every step takes 30ms
+        var steps = Math.max(Math.abs(robot.x - mmCir.x) , Math.abs(robot.y - mmCir.y));
+        console.log(circle[2] + " " + circle[3]);
+        var time = steps * 30;
+        var circleFilter = circles.filter(circleF => circleF.x == circle[0] && circleF.y == circle[1]);
+
+        //Prevent clicking while waiting to set choco
+        canvas.style.pointerEvents = "none";
+        setTimeout(function () {
+            if (circleFilter.length == 0) {
+                fillCircle(circle[0], circle[1], "white");
+            } else {
+                if (circleFilter[0].color == "white") {
+                    fillCircle(circle[0], circle[1], "black");
+                }else {
+                    unFillCircle(circle[0], circle[1]);
+                }
+            }
+        }, time+500);
+
+        //Move the robot back to 0,0
+
+        setTimeout(function () {
+            makeRobotPath(0, 0)
+            canvas.style.pointerEvents = "auto";
+        }, time + 800);
+    
+    }
+}
 
 window.addEventListener('resize', function (event) {
 
     //Create a timer to avoid calling the function too many times
     clearTimeout(resizeTimer);
-    resizeTimer = setTimeout(function () {
-        //Get the new width and height of the window
-        const newWidth = window.innerWidth;
-        const newHeight = window.innerHeight;
-        //Get the new scale to fit the screen
-        scale = Math.min(newWidth, newHeight) / 314;
-        //Create the canvas with the new scale
-        createCanvas(scale);
-        //Paint the circles that were already colored
-        for (var i = 0; i < circles.length; i++) {
-            if (circles[i].color != "grey") {
-                fillCircle(circles[i].x, circles[i].y, circles[i].color);
-            } else {
-                unFillCircle(circles[i].x, circles[i].y);
-            }
-        }
-    }, 250);
+    resizeTimer = setTimeout(redrawCanvas, 250);
 
 }, true);
 createCanvas(firstScale);
+
 

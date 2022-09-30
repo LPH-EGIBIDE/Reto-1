@@ -11,15 +11,17 @@
 <body>
     <header>
         <picture>
-            <source srcset="sources/favicon.ico" media="(max-width: 768px)" />
+            <source srcset="sources/favicon.ico" media="(max-width: 768px)"/>
             <img src="sources/logoNegro.png" alt="Logotipo de empresa">
         </picture>
         <p>Gestión de chocolates</p>
-        <ul>
-
-            <li onclick="Canvas()">Inicio</li>
-            <li onclick="Graphs()">Datos</li>
-        </ul>
+        <div id="menu">
+            <label class="switch">
+                <input type="checkbox" id="modo">
+                <span class="slider round"></span>
+            </label>
+            <h4 id="mode">Manual</h4>
+        </div>
     </header>
     <div class="contenido" id="contenido">
         <canvas id="canvas"></canvas>

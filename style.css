@@ -115,8 +115,15 @@ input:checked + .slider:before {
 }
 
 .contenido {
-    margin: 0 auto;
-    max-width: 75%;
+    margin: auto;
+    width: 75%;
+}
+
+canvas {
+    width: 100%;
+    display: flex;
+    align-self: auto;
+    justify-content: center;
 }
 
 @keyframes slide-bottom {

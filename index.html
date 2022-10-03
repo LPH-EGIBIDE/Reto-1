@@ -17,18 +17,19 @@
         <p>Gestión de chocolates</p>
         <div id="menu">
             <label class="switch">
-                <input type="checkbox" id="modo">
+                <input type="checkbox" id="modo" onclick="changeText()">
                 <span class="slider round"></span>
             </label>
-            <h4 id="mode">Manual</h4>
+            <h4 id="mode">Auto</h4>
         </div>
     </header>
     <div class="contenido" id="contenido">
         <canvas id="canvas"></canvas>
     </div>
     <script src="main.js"></script>
-    <script src="canvas.js"></script>
+    <script src="sources/Canvas/canvas.js"></script>
     <!-- SweetAlert CDN -->
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/2.1.2/sweetalert.min.js"></script>
 </body>
 </html>

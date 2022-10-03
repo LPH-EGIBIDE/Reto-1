@@ -114,11 +114,9 @@ input:checked + .slider:before {
     border-radius: 50%;
 }
 
-#contenido {
+.contenido {
     margin: 0 auto;
-    width: 75%;
-    min-height: max-content;
-    max-height: max-content;
+    max-width: 75%;
 }
 
 @keyframes slide-bottom {
@@ -136,16 +134,8 @@ input:checked + .slider:before {
         margin-left: 60px;
     }
 
-    header ul {
-        text-align: center;
-    }
-
-    header ul li:last-child {
-        display: block;
-        margin: 5px 0;
-    }
-
-    header p, header ul li{
+    header p {
         font-size: 4vw;
+        margin: auto 0;
     }
 }

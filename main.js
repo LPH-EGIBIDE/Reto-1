@@ -1,4 +1,4 @@
-var auto = true
+var auto = false
 
 function changeText() {
 let cb = document.getElementById("modo")

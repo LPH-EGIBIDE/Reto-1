@@ -1,6 +1,7 @@
 const firstWidth = document.getElementById("contenido").offsetWidth;
 const firstHeight = document.getElementById("contenido").offsetHeight;
 var circles = [];
+var timeline = [];
 var resizeTimer;
 
 //Get the scale to fit the screen
@@ -69,6 +70,9 @@ function drawImageOnCircle(x, y, imagePath) {
 
 
 }
+
+
+
 
 
 
@@ -198,4 +202,11 @@ window.addEventListener('resize', function (event) {
 
 }, true);
 createCanvas(firstScale);
+
+
+
+
+
+
+//Graphs.js file
 

@@ -5,49 +5,6 @@
     font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
 }
 
-#contenedor_carga{
-    background-color: rgba(250, 240, 245, 0.9);
-    height: 100%;
-    width: 100%;
-    position: fixed;
-    transition: all 3s ease;
-    transition-delay: 1s;
-    z-index: 10000;
-}
-
-#carga {
-    border: 15px solid #ccc;
-    border-top-color: #F4266A;
-    border-top-style: groove;
-    height: 150px;
-    width: 150px;
-    border-radius: 100%;
-
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    margin: auto;
-    animation: girar 1.5s linear infinite;
-}
-
-#contenedor_carga img{
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    margin: auto;
-}
-
-
-@keyframes girar {
-    from { transform: rotate(0deg);}
-    to{ transform: rotate(360deg);}
-    
-}
-
 body {
     background-color: plum;
 }
@@ -62,8 +19,10 @@ header {
     grid-template-columns: repeat(3,33%);
     grid-template-rows: repeat(2,50%);
     grid-template-areas:
-    "img text menu";
-    animation: slide-bottom 1s ease-in-out both;
+    "img text menu"
+    "img text modo";
+    animation: slide-bottom 1.2s ease-in-out both;
+    animation-delay: 0.2s;
 }
 
 header picture img, header picture source {
@@ -91,8 +50,14 @@ header p {
 #menu {
     grid-area: menu;
     display: flex;
-    justify-content: flex-end;
     align-items: center;
+    justify-content: center;
+}
+
+#mode {
+    grid-area: modo;
+    align-self: center;
+    text-align: center;
 }
 
 .switch {
@@ -102,14 +67,12 @@ header p {
     height: 34px;
 }
 
-  /* Hide default HTML checkbox */
 .switch input {
     opacity: 0;
     width: 0;
     height: 0;
 }
 
-  /* The slider */
 .slider {
     position: absolute;
     cursor: pointer;
@@ -159,14 +122,54 @@ input:checked + .slider:before {
 
 .contenido {
     margin: auto;
+    height: 100%;
     width: 75%;
 }
 
 canvas {
     width: 100%;
-    display: flex;
-    align-self: auto;
-    justify-content: center;
+}
+
+#contenedor_carga{
+    background-color: rgb(221, 221, 221);
+    height: 100%;
+    width: 100%;
+    position: fixed;
+    transition: all 1.4s ease;
+    transition-delay: 0.4s;
+    z-index: 2;
+}
+
+#carga {
+    border: 15px solid #ccc;
+    border-top-color: #F4266A;
+    border-top-style: groove;
+    height: 150px;
+    width: 150px;
+    border-radius: 100%;
+
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    margin: auto;
+    animation: girar 1s linear infinite;
+}
+
+#contenedor_carga img{
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    margin: auto;
+}
+
+@keyframes girar {
+    from { transform: rotate(0deg);}
+    to{ transform: rotate(360deg);}
+    
 }
 
 @keyframes slide-bottom {
@@ -178,7 +181,43 @@ canvas {
     }
 }
 
+@media screen and (max-width: 480px) {
+    header picture img {
+        height: 15vw;
+        margin-left: 5px;
+    }
+
+    header p {
+        font-size: 4vw;
+        margin: auto 0;
+    }
+}
+
 @media screen and (max-width: 768px) {
+    header picture img {
+        height: 15vw;
+        margin-left: 60px;
+    }
+
+    header p {
+        font-size: 4vw;
+        margin: auto 0;
+    }
+}
+
+@media screen and (max-width: 1024px) {
+    header picture img {
+        height: 15vw;
+        margin-left: 60px;
+    }
+
+    header p {
+        font-size: 4vw;
+        margin: auto 0;
+    }
+}
+
+@media screen and (max-width: 1280px) {
     header picture img {
         height: 15vw;
         margin-left: 60px;

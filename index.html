@@ -10,6 +10,7 @@
 </head>
 <body>
 
+    <!-- Pantalla de carga -->
     <div id="contenedor_carga"> 
         <img src="sources/favicon.ico" alt="Carga de empresa" id="cargaimg">
         <div id="carga">
@@ -17,10 +18,10 @@
         </div>
     </div>
    
-
+    <!-- Menu -->
     <header>
         <picture>
-            <source srcset="sources/favicon.ico" media="(max-width: 768px)"/>
+            <source srcset="sources/favicon.ico" media="(max-width: 1280px)"/>
             <img src="sources/logoNegro.png" alt="Logotipo de empresa">
         </picture>
         <p>Gestión de chocolates</p>
@@ -29,8 +30,8 @@
                 <input type="checkbox" id="modo" onclick="changeText()">
                 <span class="slider round"></span>
             </label>
-            <h4 id="mode">Auto</h4>
         </div>
+        <h4 id="mode">Auto</h4>
     </header>
     <div class="contenido" id="contenido">
         <canvas id="canvas"></canvas>

@@ -1,6 +1,7 @@
 const firstWidth = window.innerWidth;
 const firstHeight = window.innerHeight;
 var circles = [];
+var timeline = [];
 var robot = {
     x: 0,
     y: 0,
@@ -245,6 +246,8 @@ function fillCircle(x, y, color) {
     generateStateCircle(x, y, color);
     //setLetterCenterCircle(x,y,letters[Math.random() * letters.length | 0]);
     positionRobot(robot.x, robot.y, false)
+    
+    updateChart1();
 }
 
 function unFillCircle(x, y) {
@@ -296,6 +299,65 @@ function getXyFromMouse(event) {
         y: event.clientY - rect.top
     };
 }
+
+
+
+//Timeline functions
+function convertTable(table) {
+    // Convert the array with indexes from 0 to 24 to circle elements
+        var tableCircles = [];
+        for (var i = 0; i < table.length; i++) {
+            var circle = {
+                x: undefined,
+                y: undefined,
+                color: undefined
+            };
+            circle.x = i % 5;
+            circle.y = Math.floor(i / 5);
+            switch (table[i]) {
+                case 0:
+                    break;
+                case 1:
+                    circle.color = "white";
+                    tableCircles.push(circle);
+                    break;
+                case 2:
+                    circle.color = "black";
+                    tableCircles.push(circle);
+                    break;
+            }
+        }
+        return tableCircles;
+    }
+    
+    
+    function compareCircles(circle1, circle2) {
+        return circle1.x == circle2.x && circle1.y == circle2.y;
+    }
+    
+    function addTimeline(circles1, circles2) {
+        //Function to get the differences between two arrays of circles
+        //Adds the differences to the timeline array with the format {x: x, y: y, color: color, time: time}
+        for (var i = 0; i < circles1.length; i++) {
+            var found = false;
+            for (var j = 0; j < circles2.length; j++) {
+                if (compareCircles(circles1[i], circles2[j]) && found == false) {
+                    found = true;
+                }
+            }
+            if (!found) {
+                addCircleToTimeline(circles1[i]); 
+            }
+        }
+    }
+
+function addCircleToTimeline(circle) {
+    var time = new Date();
+    time = time.getTime();
+    circle.time = time;
+    timeline.push(circle);
+}
+
 
 canvas.addEventListener("click", function (event) {
     var xy = getXyFromMouse(event);
@@ -406,3 +468,44 @@ window.addEventListener('resize', function (event) {
 createCanvas(firstScale);
 
 
+//Chart.js data pending to be moved to a separate file
+
+//Doughnut chart for total quantity of chocolates
+var chart1Ctx = document.getElementById('chart1').getContext('2d');
+var chart1 = new Chart(chart1Ctx, {
+    type: 'doughnut',
+    data: {
+        labels: [
+          'Blanco',
+          'Negro'
+        ],
+        datasets: [{
+          label: 'Cantidad de chocopollas',
+          data: [
+            circles.filter(circleF => circleF.color == "white").length,
+            circles.filter(circleF => circleF.color == "black").length
+          ],
+          backgroundColor: [
+            'rgb(175, 175, 175)',
+            'rgb(45, 45, 45)'
+          ],
+          hoverOffset: 4
+        }]
+      },
+    options: {
+        responsive: true,
+        maintainAspectRatio: false
+    }
+});
+
+function updateChart1(){
+    chart1.data.datasets[0].data = [
+        circles.filter(circleF => circleF.color == "white").length,
+        circles.filter(circleF => circleF.color == "black").length
+    ];
+    chart1.update();
+}
+
+// function to get chocolate quantity per minute from timeline
+
+//Line chart for chocolates per minute

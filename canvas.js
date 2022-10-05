@@ -128,7 +128,7 @@ function positionRobot(xmm, ymm, redraw) {
     //Paint it black
     ctxl.fillStyle = "black";
     //Resize the robot to 20px
-    ctxl.scale(0.2, 0.2);
+    ctxl.scale(0.08 * scale, 0.08* scale);
     //set stroke color to black 
     ctxl.strokeStyle = "red";
     //set stroke width to 2
@@ -248,7 +248,7 @@ function fillCircle(x, y, color) {
     //setLetterCenterCircle(x,y,letters[Math.random() * letters.length | 0]);
     positionRobot(robot.x, robot.y, false)
     
-    updateChart1();
+    //updateChart1();
 }
 
 function unFillCircle(x, y) {

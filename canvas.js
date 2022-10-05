@@ -1,5 +1,6 @@
-const firstWidth = undefined;
-const firstHeight = undefined;
+const firstWidth = document.getElementById("contenido").offsetWidth;
+const firstHeight = document.getElementById("contenido").offsetHeight;
+var sizesParsed = false;
 var circles = [];
 var timeline = [];
 var robot = {
@@ -360,7 +361,8 @@ function addCircleToTimeline(circle) {
 
 
 canvas.addEventListener("click", function (event) {
-    if (firstWidth == undefined || firstHeight == undefined) {
+    if (!sizesParsed) {
+        sizesParsed = true;
         redrawCanvas();
     }
     var xy = getXyFromMouse(event);

@@ -1,5 +1,5 @@
-const firstWidth = window.innerWidth;
-const firstHeight = window.innerHeight;
+const firstWidth = document.getElementById("contenido").offsetWidth;
+const firstHeight = document.getElementById("contenido").offsetHeight;
 var circles = [];
 var timeline = [];
 var robot = {
@@ -397,8 +397,8 @@ function randomFill() {
 
 function redrawCanvas() {
     //Get the new width and height of the window
-    const newWidth = window.innerWidth;
-    const newHeight = window.innerHeight;
+    const newWidth = document.getElementById("contenido").offsetWidth;
+    const newHeight = document.getElementById("contenido").offsetHeight;
     //Get the new scale to fit the screen
     scale = Math.min(newWidth, newHeight) / 314;
     //Create the canvas with the new scale
@@ -466,46 +466,3 @@ window.addEventListener('resize', function (event) {
 
 }, true);
 createCanvas(firstScale);
-
-
-//Chart.js data pending to be moved to a separate file
-
-//Doughnut chart for total quantity of chocolates
-var chart1Ctx = document.getElementById('chart1').getContext('2d');
-var chart1 = new Chart(chart1Ctx, {
-    type: 'doughnut',
-    data: {
-        labels: [
-          'Blanco',
-          'Negro'
-        ],
-        datasets: [{
-          label: 'Cantidad de chocopollas',
-          data: [
-            circles.filter(circleF => circleF.color == "white").length,
-            circles.filter(circleF => circleF.color == "black").length
-          ],
-          backgroundColor: [
-            'rgb(175, 175, 175)',
-            'rgb(45, 45, 45)'
-          ],
-          hoverOffset: 4
-        }]
-      },
-    options: {
-        responsive: true,
-        maintainAspectRatio: false
-    }
-});
-
-function updateChart1(){
-    chart1.data.datasets[0].data = [
-        circles.filter(circleF => circleF.color == "white").length,
-        circles.filter(circleF => circleF.color == "black").length
-    ];
-    chart1.update();
-}
-
-// function to get chocolate quantity per minute from timeline
-
-//Line chart for chocolates per minute

@@ -1,5 +1,5 @@
-const firstWidth = document.getElementById("contenido").offsetWidth;
-const firstHeight = document.getElementById("contenido").offsetHeight;
+const firstWidth = undefined;
+const firstHeight = undefined;
 var circles = [];
 var timeline = [];
 var robot = {
@@ -360,6 +360,9 @@ function addCircleToTimeline(circle) {
 
 
 canvas.addEventListener("click", function (event) {
+    if (firstWidth == undefined || firstHeight == undefined) {
+        redrawCanvas();
+    }
     var xy = getXyFromMouse(event);
     //Calculate the m from xy as if the canvas was 180x180
     var mm = {

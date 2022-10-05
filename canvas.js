@@ -248,7 +248,7 @@ function fillCircle(x, y, color) {
     //setLetterCenterCircle(x,y,letters[Math.random() * letters.length | 0]);
     positionRobot(robot.x, robot.y, false)
     
-    //updateChart1();
+    updateChart1();
 }
 
 function unFillCircle(x, y) {
@@ -471,3 +471,45 @@ window.addEventListener('resize', function (event) {
 
 }, true);
 createCanvas(firstScale);
+
+//Chart.js data pending to be moved to a separate file
+
+//Doughnut chart for total quantity of chocolates
+var chart1Ctx = document.getElementById('chart1').getContext('2d');
+var chart1 = new Chart(chart1Ctx, {
+    type: 'doughnut',
+    data: {
+        labels: [
+          'Blanco',
+          'Negro'
+        ],
+        datasets: [{
+          label: 'Cantidad de chocopollas',
+          data: [
+            circles.filter(circleF => circleF.color == "white").length,
+            circles.filter(circleF => circleF.color == "black").length
+          ],
+          backgroundColor: [
+            'rgb(175, 175, 175)',
+            'rgb(45, 45, 45)'
+          ],
+          hoverOffset: 4
+        }]
+      },
+    options: {
+        responsive: false,
+        maintainAspectRatio: false
+    }
+});
+
+function updateChart1(){
+    chart1.data.datasets[0].data = [
+        circles.filter(circleF => circleF.color == "white").length,
+        circles.filter(circleF => circleF.color == "black").length
+    ];
+    chart1.update();
+}
+
+// function to get chocolate quantity per minute from timeline
+
+//Line chart for chocolates per minute

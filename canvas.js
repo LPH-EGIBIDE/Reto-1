@@ -43,9 +43,9 @@ function createCanvas(scale) {
 
 //Function to paint a robot and simulate the movement
 
-function makeRobotPath(x, y) {  
+function makeRobotPath(x, y) {
     if (robot.movingX || robot.movingY) {
-        console.error("Robot is already moving" +x + " " + y);
+        console.error("Robot is already moving" + x + " " + y);
         return;
     }
     robot.movingX = true;
@@ -79,12 +79,24 @@ function makeRobotPath(x, y) {
 
 }
 
+function setRobotVisibilty(visible) {
+    robot.hidden = !visible;
+    redrawCanvas();
+}
+
+function setRobot(x, y) {
+    robot.x = x;
+    robot.y = y;
+    positionRobot(x, y, true);
+}
+
 function positionRobot(xmm, ymm, redraw) {
     //Draw a image of a robot on the position x,y in mm
     //First check if the robot is hidden
     if (robot.hidden) {
         return;
     }
+
     //Remove the robot from the canvas
     if (redraw)
         redrawCanvas();
@@ -122,13 +134,13 @@ function positionRobot(xmm, ymm, redraw) {
     console.log("Setting position to" + px.x + "," + px.y);
     //Calculate the robot height
 
-    ctxl.translate( (px.x - (canvas.width * 0.053) ), (px.y - (canvas.height * 0.053) ) );
+    ctxl.translate((px.x - (canvas.width * 0.053)), (px.y - (canvas.height * 0.053)));
     //Draw a 5x5 dot at the robot's position
     //ctx.fillRect(-2.5, -2.5, 5, 5);
     //Paint it black
     ctxl.fillStyle = "black";
     //Resize the robot to 20px
-    ctxl.scale(0.08 * scale, 0.08* scale);
+    ctxl.scale(0.08 * scale, 0.08 * scale);
     //set stroke color to black 
     ctxl.strokeStyle = "red";
     //set stroke width to 2
@@ -138,7 +150,7 @@ function positionRobot(xmm, ymm, redraw) {
     ctxl.setTransform(1, 0, 0, 1, 0, 0);
     ctxl.lineWidth = 2 * scale;
     ctxl.strokeStyle = "black";
-} 
+}
 
 function setLetterCenterCircle(x, y, letter) {
     var cirX = (canvas.width / 2 + (x - 3) * (60) * scale);
@@ -247,7 +259,7 @@ function fillCircle(x, y, color) {
     generateStateCircle(x, y, color);
     //setLetterCenterCircle(x,y,letters[Math.random() * letters.length | 0]);
     positionRobot(robot.x, robot.y, false)
-    
+
     //updateChart1();
 }
 
@@ -290,7 +302,31 @@ function getCircleClicked(x, y) {
 }
 
 
-
+function updateBoard(newBoard) {
+    //Update the board with the new board as if 0 is empty, 1 is white and 2 is black
+    //Save the new additions to timeLine
+    //New board array is from index 0 to 24
+    var newCircles = [];
+    for (var i = 0; i < 25; i++) {
+        if (newBoard[i] == 1) {
+            newCircles.push({ x: i % 5 + 1, y: Math.floor(i / 5) + 1, color: "white" });
+        } else if (newBoard[i] == 2) {
+            newCircles.push({ x: i % 5 + 1, y: Math.floor(i / 5) + 1, color: "black" });
+        }
+    }
+    //Get additions
+    for (var i = 0; i < newCircles.length; i++) {
+        var circleFilter = circles.filter(circle => circle.x == newCircles[i].x && circle.y == newCircles[i].y);
+        if (circleFilter.length == 0) {
+            //Add to timeline
+            addCircleToTimeline(newCircles[i]);
+        }
+    }
+    //Set the new board
+    circles = newCircles;
+    //Redraw the canvas
+    redrawCanvas();
+}
 
 
 function getXyFromMouse(event) {
@@ -306,51 +342,30 @@ function getXyFromMouse(event) {
 //Timeline functions
 function convertTable(table) {
     // Convert the array with indexes from 0 to 24 to circle elements
-        var tableCircles = [];
-        for (var i = 0; i < table.length; i++) {
-            var circle = {
-                x: undefined,
-                y: undefined,
-                color: undefined
-            };
-            circle.x = i % 5;
-            circle.y = Math.floor(i / 5);
-            switch (table[i]) {
-                case 0:
-                    break;
-                case 1:
-                    circle.color = "white";
-                    tableCircles.push(circle);
-                    break;
-                case 2:
-                    circle.color = "black";
-                    tableCircles.push(circle);
-                    break;
-            }
-        }
-        return tableCircles;
-    }
-    
-    
-    function compareCircles(circle1, circle2) {
-        return circle1.x == circle2.x && circle1.y == circle2.y;
-    }
-    
-    function addTimeline(circles1, circles2) {
-        //Function to get the differences between two arrays of circles
-        //Adds the differences to the timeline array with the format {x: x, y: y, color: color, time: time}
-        for (var i = 0; i < circles1.length; i++) {
-            var found = false;
-            for (var j = 0; j < circles2.length; j++) {
-                if (compareCircles(circles1[i], circles2[j]) && found == false) {
-                    found = true;
-                }
-            }
-            if (!found) {
-                addCircleToTimeline(circles1[i]); 
-            }
+    var tableCircles = [];
+    for (var i = 0; i < table.length; i++) {
+        var circle = {
+            x: undefined,
+            y: undefined,
+            color: undefined
+        };
+        circle.x = i % 5;
+        circle.y = Math.floor(i / 5);
+        switch (table[i]) {
+            case 0:
+                break;
+            case 1:
+                circle.color = "white";
+                tableCircles.push(circle);
+                break;
+            case 2:
+                circle.color = "black";
+                tableCircles.push(circle);
+                break;
         }
     }
+    return tableCircles;
+}
 
 function addCircleToTimeline(circle) {
     var time = new Date();
@@ -372,7 +387,7 @@ canvas.addEventListener("click", function (event) {
         y: Math.ceil(xy.y * 180 / canvas.height)
     };
 
-    
+
 
     console.log("x: " + xy.x + " y: " + xy.y);
     console.log("mmX: " + mm.x + " mmY: " + mm.y);
@@ -384,7 +399,30 @@ canvas.addEventListener("click", function (event) {
         x: Math.ceil(circle[2] * 180 / canvas.width),
         y: Math.ceil(circle[3] * 180 / canvas.height)
     };
-    simulateRobot(circle, mmCir);
+    //simulateRobot(circle, mmCir);
+    //get the index from 0 to 24 based on a 5x5 grid
+    var index = (xy.x - 1) + (xy.y - 1) * 5;
+
+    if (!simulated) {
+        if (!robot.movingX && !robot.movingY && parseInt(globalData.programa) < 2)
+            //Sweetalert to ask the color of the circle
+            Swal.fire({
+                title: 'Elige el color de la ficha a colocar',
+                showDenyButton: true,
+                showCancelButton: false,
+                confirmButtonText: `Blanca`,
+                denyButtonText: `Negra`,
+            }).then((result) => {
+                /* Read more about isConfirmed, isDenied below */
+                if (result.isConfirmed) {
+                    setCircleColor(index, 1);
+                } else if (result.isDenied) {
+                    setCircleColor(index, 2);
+                }
+            })
+    } else
+        simulateRobot(circle, mmCir);
+    //updateChart1();
 
 });
 
@@ -401,6 +439,9 @@ function randomFill() {
 }
 
 function redrawCanvas() {
+    //get the function that invokes the function
+    var caller = arguments.callee.caller.name;
+    console.log("Redrawing canvas from " + caller);
     //Get the new width and height of the window
     const newWidth = document.getElementById("contenido").offsetWidth;
     const newHeight = document.getElementById("contenido").offsetHeight;
@@ -434,7 +475,7 @@ function simulateRobot(circle, mmCir) {
     if (robot.x != x || robot.y != y) {
         makeRobotPath(mmCir.x, mmCir.y);
         //Calculate time to simulate the robot moving if every step takes 30ms
-        var steps = Math.max(Math.abs(robot.x - mmCir.x) , Math.abs(robot.y - mmCir.y));
+        var steps = Math.max(Math.abs(robot.x - mmCir.x), Math.abs(robot.y - mmCir.y));
         console.log(circle[2] + " " + circle[3]);
         var time = steps * 30;
         var circleFilter = circles.filter(circleF => circleF.x == circle[0] && circleF.y == circle[1]);
@@ -447,11 +488,11 @@ function simulateRobot(circle, mmCir) {
             } else {
                 if (circleFilter[0].color == "white") {
                     fillCircle(circle[0], circle[1], "black");
-                }else {
+                } else {
                     unFillCircle(circle[0], circle[1]);
                 }
             }
-        }, time+500);
+        }, time + 500);
 
         //Move the robot back to 0,0
 
@@ -459,7 +500,7 @@ function simulateRobot(circle, mmCir) {
             makeRobotPath(0, 0)
             canvas.style.pointerEvents = "auto";
         }, time + 800);
-    
+
     }
 }
 

@@ -17,16 +17,8 @@ section{
     margin: 0 auto;
 }
 
-#grafics{
-    margin-left: 1em;
-    margin-top: 1em;
-    display: flex;
-    flex-direction: column; 
-}
-
 header {
     margin: 0 auto;
-    display: flex;
     max-width: 95%;
     background-color: rgb(252, 239, 218);
     border-bottom-left-radius: 30px;
@@ -41,23 +33,23 @@ header {
     animation-delay: 0.2s;
 }
 
-header picture img, header picture source {
+header picture {
     grid-area: img;
+}
+
+header picture img, header img source {
+    display: block;
     height: 6vw;
-    margin: auto 0;
+    margin: 0 auto;
 }
 
 header p {
     grid-area: text;
-    font-size: 8vw;
     margin: auto 0;
-}
-
-header p {
     text-decoration: none;
     display: inline-block;
     text-align: center;
-    font-size: 1.6em;
+    font-size: 2.4em;
     text-decoration: none;
     color: inherit;
     transition: transform .2s;
@@ -130,6 +122,7 @@ input:checked + .slider:before {
 }
 
   /* Rounded sliders */
+
 .slider.round {
     border-radius: 34px;
 }
@@ -139,21 +132,33 @@ input:checked + .slider:before {
 }
 
 #mode {
-    font-size: 2vw;
+    font-size: 2em;
 }
 
-.contenido {
+#contenido {
     margin: auto;
-    height: 100%;
-    width: 75%;
+    width: 100%;
 }
 
 #canvas {
-    width: 100%;
-    margin-left: 1em;
-    margin-top: 1em;
+    display: block;
+    width: 75%;
+    margin: 3em auto;
     border-radius: 1em;
     box-shadow: 1em 1em 1em #000;
+}
+
+#grafics {
+    width: 100%;
+    margin: auto;
+}
+
+#chart1 {
+    display: block;
+    margin: 0 auto;
+    height: 75% !important;
+    width: 75% !important;
+    margin-bottom: 3em;
 }
 
 #contenedor_carga{
@@ -208,9 +213,9 @@ input:checked + .slider:before {
 }
 
 @media screen and (max-width: 650px) {
+
     header picture img {
-        height: 15vw;
-        margin-left: 5px;
+        height: 10vh;
     }
 
     header p {
@@ -226,21 +231,12 @@ input:checked + .slider:before {
         font-size: 1000vw;
     }
 
-    #grafics{
-        display: flex;
-        flex-direction: row;
-        flex-wrap: wrap;
-        margin: 0 auto;
-        margin-top: 2em;
-    }
-
 }
 
 @media screen and (max-width: 768px) {
+
     header picture img {
-        height: 15vw;
-        margin-left: 60px;
-        
+        height: 13vw;
     }
 
     header p {
@@ -249,29 +245,29 @@ input:checked + .slider:before {
     }
 
     #mode {
-        font-size: 5vw;
+        font-size: 1000vw;
     }
 }
 
 @media screen and (max-width: 1024px) {
+
     header picture img {
-        height: 15vw;
-        margin-left: 60px;
+        height: 13vw;
     }
 
     header p {
         font-size: 4vw;
         margin: auto 0;
     }
-
     
 }
 
 @media screen and (max-width: 1280px) {
+
     header picture img {
-        height: 15vw;
-        margin-left: 60px;
+        height: 13vw;
     }
+
     header p {
         font-size: 4vw;
         margin: auto 0;

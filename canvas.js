@@ -538,6 +538,8 @@ var chart1 = new Chart(chart1Ctx, {
         }]
       },
     options: {
+
+        // Esto está al revés, cuanto más grande el ancho, más pequeño el gráfico xd
         responsive: false,
         maintainAspectRatio: false
     }

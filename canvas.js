@@ -401,7 +401,7 @@ canvas.addEventListener("click", function (event) {
     };
     //simulateRobot(circle, mmCir);
     //get the index from 0 to 24 based on a 5x5 grid
-    var index = (xy.x - 1) + (xy.y - 1) * 5;
+    var index = (circle[0] - 1) + (circle[1] - 1) * 5;
 
     if (!simulated) {
         if (!robot.movingX && !robot.movingY && parseInt(globalData.programa) < 2)

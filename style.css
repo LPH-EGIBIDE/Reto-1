@@ -9,8 +9,24 @@ body {
     background-color: plum;
 }
 
+section{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-evenly;
+    max-width: 80%;
+    margin: 0 auto;
+}
+
+#grafics{
+    margin-left: 1em;
+    margin-top: 1em;
+    display: flex;
+    flex-direction: column; 
+}
+
 header {
     margin: 0 auto;
+    display: flex;
     max-width: 95%;
     background-color: rgb(252, 239, 218);
     border-bottom-left-radius: 30px;
@@ -28,12 +44,12 @@ header {
 header picture img, header picture source {
     grid-area: img;
     height: 6vw;
-    align-self: center;
-    justify-items: center;
+    margin: auto 0;
 }
 
 header p {
     grid-area: text;
+    font-size: 8vw;
     margin: auto 0;
 }
 
@@ -52,12 +68,14 @@ header p {
     display: flex;
     align-items: center;
     justify-content: center;
+    margin-top: auto;
 }
 
 #mode {
     grid-area: modo;
-    align-self: center;
     text-align: center;
+    margin-bottom: auto;
+    padding-top: 10px;
 }
 
 .switch {
@@ -120,14 +138,22 @@ input:checked + .slider:before {
     border-radius: 50%;
 }
 
+#mode {
+    font-size: 2vw;
+}
+
 .contenido {
     margin: auto;
     height: 100%;
     width: 75%;
 }
 
-canvas {
+#canvas {
     width: 100%;
+    margin-left: 1em;
+    margin-top: 1em;
+    border-radius: 1em;
+    box-shadow: 1em 1em 1em #000;
 }
 
 #contenedor_carga{
@@ -181,7 +207,7 @@ canvas {
     }
 }
 
-@media screen and (max-width: 480px) {
+@media screen and (max-width: 650px) {
     header picture img {
         height: 15vw;
         margin-left: 5px;
@@ -191,17 +217,39 @@ canvas {
         font-size: 4vw;
         margin: auto 0;
     }
+
+    section{
+        flex-direction: column;
+    }
+
+    #mode {
+        font-size: 1000vw;
+    }
+
+    #grafics{
+        display: flex;
+        flex-direction: row;
+        flex-wrap: wrap;
+        margin: 0 auto;
+        margin-top: 2em;
+    }
+
 }
 
 @media screen and (max-width: 768px) {
     header picture img {
         height: 15vw;
         margin-left: 60px;
+        
     }
 
     header p {
         font-size: 4vw;
         margin: auto 0;
+    }
+
+    #mode {
+        font-size: 5vw;
     }
 }
 
@@ -215,6 +263,8 @@ canvas {
         font-size: 4vw;
         margin: auto 0;
     }
+
+    
 }
 
 @media screen and (max-width: 1280px) {
@@ -222,9 +272,13 @@ canvas {
         height: 15vw;
         margin-left: 60px;
     }
-
     header p {
         font-size: 4vw;
         margin: auto 0;
     }
+
+    #mode {
+        font-size: 3vw;
+    }
+    
 }

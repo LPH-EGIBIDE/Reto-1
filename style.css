@@ -23,6 +23,7 @@ section{
 
 header {
     margin: 0 auto;
+    display: flex;
     max-width: 95%;
     background-color: rgb(252, 239, 218);
     border-bottom-left-radius: 30px;
@@ -40,12 +41,12 @@ header {
 header picture img, header picture source {
     grid-area: img;
     height: 6vw;
-    align-self: center;
-    justify-items: center;
+    margin: auto 0;
 }
 
 header p {
     grid-area: text;
+    font-size: 8vw;
     margin: auto 0;
 }
 
@@ -64,12 +65,14 @@ header p {
     display: flex;
     align-items: center;
     justify-content: center;
+    margin-top: auto;
 }
 
 #mode {
     grid-area: modo;
-    align-self: center;
     text-align: center;
+    margin-bottom: auto;
+    padding-top: 10px;
 }
 
 .switch {
@@ -130,6 +133,10 @@ input:checked + .slider:before {
 
 .slider.round:before {
     border-radius: 50%;
+}
+
+#mode {
+    font-size: 2vw;
 }
 
 .contenido {
@@ -205,9 +212,15 @@ canvas {
         font-size: 4vw;
         margin: auto 0;
     }
+
     section{
         flex-direction: column;
     }
+
+    #mode {
+        font-size: 1000vw;
+    }
+
     #grafics{
         display: flex;
         flex-direction: row;
@@ -225,6 +238,10 @@ canvas {
     header p {
         font-size: 4vw;
         margin: auto 0;
+    }
+
+    #mode {
+        font-size: 5vw;
     }
 }
 
@@ -247,9 +264,13 @@ canvas {
         height: 15vw;
         margin-left: 60px;
     }
-
     header p {
         font-size: 4vw;
         margin: auto 0;
     }
+
+    #mode {
+        font-size: 3vw;
+    }
+    
 }

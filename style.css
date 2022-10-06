@@ -7,18 +7,21 @@
 
 body {
     background-color: plum;
-    
 }
 
 section{
     display: flex;
     flex-direction: row;
     justify-content: space-evenly;
+    max-width: 80%;
+    margin: 0 auto;
 }
 
 #grafics{
+    margin-left: 1em;
+    margin-top: 1em;
     display: flex;
-    flex-direction: column;
+    flex-direction: column; 
 }
 
 header {
@@ -138,10 +141,12 @@ input:checked + .slider:before {
     width: 75%;
 }
 
-canvas {
+#canvas {
     width: 100%;
     margin-left: 1em;
     margin-top: 1em;
+    border-radius: 1em;
+    box-shadow: 1em 1em 1em #000;
 }
 
 #contenedor_carga{
@@ -212,6 +217,8 @@ canvas {
         display: flex;
         flex-direction: row;
         flex-wrap: wrap;
+        margin: 0 auto;
+        margin-top: 2em;
     }
 
 }
@@ -220,6 +227,7 @@ canvas {
     header picture img {
         height: 15vw;
         margin-left: 60px;
+        
     }
 
     header p {

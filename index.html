@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="shortcut icon" href="sources/favicon.ico" type="image/x-icon">
+    <link rel="stylesheet" href="style.css">
+    <title>Los Pollos Hermanos</title>
+</head>
+<body>
+
+    <!-- Pantalla de carga -->
+    <div id="contenedor_carga"> 
+        <img src="sources/favicon.ico" alt="Carga de empresa" id="cargaimg">
+        <div id="carga"></div>
+    </div>
+    <!-- Menu -->
+    <header>
+        <picture>
+            <source srcset="sources/favicon.ico" media="(max-width: 1024px)"/>
+            <img src="sources/logoNegro.png" alt="Logotipo de empresa">
+        </picture>
+        <p>Gestión de chocolates</p>
+        <div id="menu">
+            <label class="switch">
+                <input type="checkbox" id="modo" onclick="toggleProgram()">
+                <span class="slider round"></span>
+            </label>
+        </div>
+        <h4 id="mode">Auto</h4>
+    </header>
+    <section>
+    <div id="contenido">
+        <canvas id="canvas"></canvas>
+    </div>
+
+    <div id="grafics">
+        <div id="chart1Container">
+            <canvas id="chart1"></canvas>
+        </div>
+        <div id="chart2Container">
+            <canvas id="chart2"></canvas>
+        </div>
+    </div>
+    </section>
+
+    <footer>
+        <p>© 2022 Los Pollos Hermanos</p>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="plc.js"></script>
+    <script src="canvas.js"></script>
+    <script src="charts.js"></script>
+</body>
+</html>

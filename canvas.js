@@ -405,33 +405,43 @@ canvas.addEventListener("click", function (event) {
     //get the index from 0 to 24 based on a 5x5 grid
     var index = (circle[0] - 1) + (circle[1] - 1) * 5;
     if (!auto) {
-        if (!simulated) {
-            if (!robot.movingX && !robot.movingY && parseInt(globalData.programa) < 2)
-                //Sweetalert to ask the color of the circle
-                Swal.fire({
-                    title: 'Elige el color de la ficha a colocar',
-                    showDenyButton: true,
-                    showCancelButton: true,
-                    confirmButtonText: `Blanca`,
-                    denyButtonText: `Negra`,
-                    cancelButtonText: `Vacio`
-                }).then((result) => {
-                    /* Read more about isConfirmed, isDenied below */
-                    if (result.isConfirmed) {
+        if (!robot.movingX && !robot.movingY) {
+            //Sweetalert to ask the color of the circle
+            Swal.fire({
+                title: 'Elige el color de la ficha a colocar',
+                showDenyButton: true,
+                showCancelButton: true,
+                confirmButtonText: `Blanca`,
+                denyButtonText: `Negra`,
+                cancelButtonText: `Vacio`
+            }).then((result) => {
+                /* Read more about isConfirmed, isDenied below */
+                if (result.isConfirmed) {
+                    if (simulated)
+                        simulateRobot(circle, mmCir, 1);
+                    else
                         setCircleColor(index, 1);
-                    } else if (result.isDenied) {
+                } else if (result.isDenied) {
+                    if (simulated)
+                        simulateRobot(circle, mmCir, 2);
+                    else
                         setCircleColor(index, 2);
-                    }
-                })
-        } else
-            simulateRobot(circle, mmCir);
-
+                } else if (result.isDismissed) {
+                    if (simulated)
+                        simulateRobot(circle, mmCir, 0);
+                    else
+                        setCircleColor(index, 0);
+                }
+            })
+        }
     } else {
         Swal.fire({
             icon: 'error',
             title: 'Oops...',
             text: 'No puedes mover las fichas en modo automatico',
-            timer: 500
+            timer: 1000,
+            timerProgressBar: true,
+            showConfirmButton: false
         })
     }
     //updateChart1();
@@ -476,7 +486,7 @@ function redrawCanvas() {
 }
 
 
-function simulateRobot(circle, mmCir) {
+function simulateRobot(circle, mmCir, color) {
     var x = circle[0];
     var y = circle[1];
     //return if robot is moving
@@ -497,14 +507,44 @@ function simulateRobot(circle, mmCir) {
         //Prevent clicking while waiting to set choco
         canvas.style.pointerEvents = "none";
         setTimeout(function () {
-            if (circleFilter.length == 0) {
-                fillCircle(circle[0], circle[1], "white");
-            } else {
-                if (circleFilter[0].color == "white") {
-                    fillCircle(circle[0], circle[1], "black");
-                } else {
-                    unFillCircle(circle[0], circle[1]);
-                }
+            switch (color) {
+                case 1:
+                    if (circleFilter.length != 0 && circleFilter[0].color == "white") {
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'Oops...',
+                            text: 'Ya hay una ficha blanca en esa posicion',
+                            timer: 1000,
+                            showConfirmButton: false
+                        })
+                    } else
+                        fillCircle(circle[0], circle[1], "white");
+                    break;
+                case 2:
+                    if (circleFilter.length != 0 && circleFilter[0].color == "black") {
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'Oops...',
+                            text: 'Ya hay una ficha negra en esa posicion',
+                            timer: 1000,
+                            showConfirmButton: false
+                        })
+                    } else
+                        fillCircle(circle[0], circle[1], "black");
+                    break;
+                case 0:
+                default:
+                    if (circleFilter.length == 0) {
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'Oops...',
+                            text: 'No hay ninguna ficha en esa posicion',
+                            timer: 1000,
+                            showConfirmButton: false
+                        })
+                    } else
+                        unFillCircle(circle[0], circle[1]);
+                    break;
             }
         }, time + 500);
 

@@ -39,23 +39,18 @@
     </div>
 
     <div id="grafics">
-        <canvas id="chart1"></canvas>
+        <div id="chart1Container">
+            <canvas id="chart1"></canvas>
+        </div>
+        <div id="chart2Container">
+            <canvas id="chart2"></canvas>
+        </div>
     </div>
     </section>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script src="plc.js"></script>
-    <script src="main.js"></script>
     <script src="canvas.js"></script>
-    <!-- SweetAlert CDN -->
-    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/2.1.2/sweetalert.min.js"></script>
-    <script>
-        window.onload = function(){
-            var contenedor = document.getElementById('contenedor_carga');
-            contenedor.style.visibility = 'hidden';
-            contenedor.style.opacity = '0';
-        }
-    </script>
+    <script src="charts.js"></script>
 </body>
 </html>

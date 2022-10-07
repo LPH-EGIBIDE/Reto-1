@@ -261,6 +261,7 @@ function fillCircle(x, y, color) {
     positionRobot(robot.x, robot.y, false)
 
     updateChart1();
+    updateChart2(); 
 }
 
 function unFillCircle(x, y) {
@@ -519,6 +520,7 @@ function simulateRobot(circle, mmCir, color) {
                         })
                     } else
                         fillCircle(circle[0], circle[1], "white");
+                        addCircleToTimeline(circle);
                     break;
                 case 2:
                     if (circleFilter.length != 0 && circleFilter[0].color == "black") {
@@ -531,6 +533,7 @@ function simulateRobot(circle, mmCir, color) {
                         })
                     } else
                         fillCircle(circle[0], circle[1], "black");
+                        addCircleToTimeline(circle);
                     break;
                 case 0:
                 default:
@@ -567,46 +570,8 @@ window.addEventListener('resize', function (event) {
 }, true);
 createCanvas(firstScale);
 
-//Chart.js data pending to be moved to a separate file
-
-//Doughnut chart for total quantity of chocolates
-var chart1Ctx = document.getElementById('chart1').getContext('2d');
-var chart1 = new Chart(chart1Ctx, {
-    type: 'doughnut',
-    data: {
-        labels: [
-            'Blanco',
-            'Negro'
-        ],
-        datasets: [{
-            label: 'Cantidad de chocopollas',
-            data: [
-                circles.filter(circleF => circleF.color == "white").length,
-                circles.filter(circleF => circleF.color == "black").length
-            ],
-            backgroundColor: [
-                'rgb(175, 175, 175)',
-                'rgb(45, 45, 45)'
-            ],
-            hoverOffset: 4
-        }]
-    },
-    options: {
-
-        // Esto está al revés, cuanto más grande el ancho, más pequeño el gráfico xd
-        responsive: false,
-        maintainAspectRatio: false
-    }
-});
-
-function updateChart1() {
-    chart1.data.datasets[0].data = [
-        circles.filter(circleF => circleF.color == "white").length,
-        circles.filter(circleF => circleF.color == "black").length
-    ];
-    chart1.update();
+window.onload = function(){
+    var contenedor = document.getElementById('contenedor_carga');
+    contenedor.style.visibility = 'hidden';
+    contenedor.style.opacity = '0';
 }
-
-// function to get chocolate quantity per minute from timeline
-
-//Line chart for chocolates per minute

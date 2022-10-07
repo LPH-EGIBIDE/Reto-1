@@ -27,15 +27,24 @@
         <p>Gestión de chocolates</p>
         <div id="menu">
             <label class="switch">
-                <input type="checkbox" id="modo" onclick="changeText()">
+                <input type="checkbox" id="modo" onclick="toggleProgram()">
                 <span class="slider round"></span>
             </label>
         </div>
         <h4 id="mode">Auto</h4>
     </header>
-    <div class="contenido" id="contenido">
+    <section>
+    <div id="contenido">
         <canvas id="canvas"></canvas>
     </div>
+
+    <div id="grafics">
+        <canvas id="chart1"></canvas>
+    </div>
+    </section>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="plc.js"></script>
     <script src="main.js"></script>
     <script src="canvas.js"></script>
     <!-- SweetAlert CDN -->
@@ -44,7 +53,6 @@
     <script>
         window.onload = function(){
             var contenedor = document.getElementById('contenedor_carga');
-
             contenedor.style.visibility = 'hidden';
             contenedor.style.opacity = '0';
         }

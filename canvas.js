@@ -1,6 +1,7 @@
 const firstWidth = document.getElementById("contenido").clientWidth;
 const firstHeight = document.getElementById("contenido").clientHeight;
 var sizesParsed = false;
+var debugMode = false;
 var circles = [];
 var timeline = [];
 var robot = {
@@ -20,6 +21,13 @@ const firstScale = Math.min(firstWidth, firstHeight) / 314;
 var scale = firstScale;
 var xQuant = 5;
 var yQuant = 5;
+
+function logger(msg) {
+    if (debugMode) 
+        console.log(msg);
+
+}
+
 //const firstScale = Math.min(firstWidth, firstHeight) /314;
 function createCanvas(scale) {
     // Get the canvas element and set it to max width and height with some padding
@@ -131,7 +139,7 @@ function positionRobot(xmm, ymm, redraw) {
 	v-89h9V448z M271,359h9v89h-9V359z M313.352,448H295v-96.5c0-4.142-3.357-7.5-7.5-7.5h-18.903L239,308.768V263h21.394l74.965,74.965
 	L313.352,448z`);
     //Set the position of the robot and center the image
-    console.log("Setting position to" + px.x + "," + px.y);
+    logger("Setting position to" + px.x + "," + px.y);
     //Calculate the robot height
 
     ctxl.translate((px.x - (canvas.width * 0.053)), (px.y - (canvas.height * 0.053)));
@@ -230,7 +238,7 @@ function generateStateCircle(x, y, color) {
 
 function fillCircle(x, y, color) {
     ctx.beginPath();
-    console.log("x: " + (canvas.width / 2 + (x - 3) * (60) * scale) + " y: " + (canvas.height / 2 + (y - 3) * (60) * scale));
+    logger("x: " + (canvas.width / 2 + (x - 3) * (60) * scale) + " y: " + (canvas.height / 2 + (y - 3) * (60) * scale));
     ctx.arc(canvas.width / 2 + (x - 3) * (60) * scale, canvas.height / 2 + (y - 3) * (60) * scale, (28, 5) * scale, 0, 2 * Math.PI);
     ctx.fillStyle = color;
     ctx.fill();
@@ -253,7 +261,7 @@ function fillCircle(x, y, color) {
             circleFilter[0].color = color;
             circles = circles.filter(circle => circle.x != x || circle.y != y);
             circles.push(circleFilter[0]);
-            console.log("Updated circle" + circleFilter[0].x + " " + circleFilter[0].y + " " + circleFilter[0].color);
+            logger("Updated circle" + circleFilter[0].x + " " + circleFilter[0].y + " " + circleFilter[0].color);
         }
     }
     generateStateCircle(x, y, color);
@@ -392,10 +400,10 @@ canvas.addEventListener("click", function (event) {
 
 
 
-    console.log("x: " + xy.x + " y: " + xy.y);
-    console.log("mmX: " + mm.x + " mmY: " + mm.y);
+    logger("x: " + xy.x + " y: " + xy.y);
+    logger("mmX: " + mm.x + " mmY: " + mm.y);
     var circle = getCircleClicked(xy.x, xy.y);
-    console.log("circleX: " + circle[0] + " circleY: " + circle[1]);
+    logger("circleX: " + circle[0] + " circleY: " + circle[1]);
     //If circle is filled unfill it, else fill it
     //var 
     var mmCir = {
@@ -464,7 +472,7 @@ function randomFill() {
 function redrawCanvas() {
     //get the function that invokes the function
     var caller = arguments.callee.caller.name;
-    console.log("Redrawing canvas from " + caller);
+    logger("Redrawing canvas from " + caller);
     //Get the new width and height of the window
     var marginLeftRight = parseInt(window.getComputedStyle(canvas).marginLeft) * 2;
     var marginTopBottom = parseInt(window.getComputedStyle(canvas).marginTop) * 2;
@@ -476,9 +484,9 @@ function redrawCanvas() {
     createCanvas(scale);
     //Paint the circles that were already colored
     for (var i = 0; i < circles.length; i++) {
-        console.log(circles[i].x + " " + circles[i].y + " " + circles[[i]].color);
+        logger(circles[i].x + " " + circles[i].y + " " + circles[[i]].color);
         if (circles[i].color != "grey") {
-            console.log("Redrawing circle " + circles[i].x + " " + circles[i].y + " " + circles[i].color);
+            logger("Redrawing circle " + circles[i].x + " " + circles[i].y + " " + circles[i].color);
             fillCircle(circles[i].x, circles[i].y, circles[i].color);
         } else {
             unFillCircle(circles[i].x, circles[i].y);
@@ -501,7 +509,7 @@ function simulateRobot(circle, mmCir, color) {
         makeRobotPath(mmCir.x, mmCir.y);
         //Calculate time to simulate the robot moving if every step takes 30ms
         var steps = Math.max(Math.abs(robot.x - mmCir.x), Math.abs(robot.y - mmCir.y));
-        console.log(circle[2] + " " + circle[3]);
+        logger(circle[2] + " " + circle[3]);
         var time = steps * 30;
         var circleFilter = circles.filter(circleF => circleF.x == circle[0] && circleF.y == circle[1]);
 

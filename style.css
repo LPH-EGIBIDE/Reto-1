@@ -77,8 +77,8 @@ header p {
 .switch {
     position: relative;
     display: inline-block;
-    width: 60px;
-    height: 34px;
+    width: 7.5vw;
+    height: 4vw;
 }
 
 .switch input {
@@ -102,10 +102,10 @@ header p {
 .slider:before {
     position: absolute;
     content: "";
-    height: 26px;
-    width: 26px;
-    left: 4px;
-    bottom: 4px;
+    height: 3vw;
+    width: 3vw;
+    left: .5vw;
+    bottom: .5vw;
     background-color: white;
     -webkit-transition: .4s;
     transition: .4s;
@@ -120,15 +120,15 @@ input:focus + .slider {
 }
 
 input:checked + .slider:before {
-    -webkit-transform: translateX(26px);
-    -ms-transform: translateX(26px);
-    transform: translateX(26px);
+    -webkit-transform: translateX(3vw);
+    -ms-transform: translateX(3vw);
+    transform: translateX(3vw);
 }
 
   /* Rounded sliders */
 
 .slider.round {
-    border-radius: 34px;
+    border-radius: 4vw;
 }
 
 .slider.round:before {
@@ -199,6 +199,15 @@ input:checked + .slider:before {
     right: 0;
     bottom: 0;
     margin: auto;
+}
+
+footer {
+    background-color: rgb(252, 239, 218);
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+    text-align: center;
+    padding: 1em;
 }
 
 @keyframes girar {

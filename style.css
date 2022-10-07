@@ -7,10 +7,6 @@
 
 body {
     background-color: plum;
-    background-image: url(sources/bakcground.jpg);
-    background-size: cover;
-    background-repeat: no-repeat;
-    background-attachment: fixed;
 }
 
 section{

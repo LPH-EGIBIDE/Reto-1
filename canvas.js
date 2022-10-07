@@ -1,5 +1,5 @@
-const firstWidth = document.getElementById("contenido").offsetWidth;
-const firstHeight = document.getElementById("contenido").offsetHeight;
+const firstWidth = document.getElementById("contenido").clientWidth;
+const firstHeight = document.getElementById("contenido").clientHeight;
 var sizesParsed = false;
 var circles = [];
 var timeline = [];
@@ -259,7 +259,7 @@ function fillCircle(x, y, color) {
     generateStateCircle(x, y, color);
     //setLetterCenterCircle(x,y,letters[Math.random() * letters.length | 0]);
     positionRobot(robot.x, robot.y, false)
-    
+
     updateChart1();
 }
 
@@ -331,6 +331,8 @@ function updateBoard(newBoard) {
 
 function getXyFromMouse(event) {
     var rect = canvas.getBoundingClientRect();
+    //Get the margins between canvas and div  contenido
+
     return {
         x: event.clientX - rect.left,
         y: event.clientY - rect.top
@@ -402,26 +404,36 @@ canvas.addEventListener("click", function (event) {
     //simulateRobot(circle, mmCir);
     //get the index from 0 to 24 based on a 5x5 grid
     var index = (circle[0] - 1) + (circle[1] - 1) * 5;
+    if (!auto) {
+        if (!simulated) {
+            if (!robot.movingX && !robot.movingY && parseInt(globalData.programa) < 2)
+                //Sweetalert to ask the color of the circle
+                Swal.fire({
+                    title: 'Elige el color de la ficha a colocar',
+                    showDenyButton: true,
+                    showCancelButton: true,
+                    confirmButtonText: `Blanca`,
+                    denyButtonText: `Negra`,
+                    cancelButtonText: `Vacio`
+                }).then((result) => {
+                    /* Read more about isConfirmed, isDenied below */
+                    if (result.isConfirmed) {
+                        setCircleColor(index, 1);
+                    } else if (result.isDenied) {
+                        setCircleColor(index, 2);
+                    }
+                })
+        } else
+            simulateRobot(circle, mmCir);
 
-    if (!simulated) {
-        if (!robot.movingX && !robot.movingY && parseInt(globalData.programa) < 2)
-            //Sweetalert to ask the color of the circle
-            Swal.fire({
-                title: 'Elige el color de la ficha a colocar',
-                showDenyButton: true,
-                showCancelButton: false,
-                confirmButtonText: `Blanca`,
-                denyButtonText: `Negra`,
-            }).then((result) => {
-                /* Read more about isConfirmed, isDenied below */
-                if (result.isConfirmed) {
-                    setCircleColor(index, 1);
-                } else if (result.isDenied) {
-                    setCircleColor(index, 2);
-                }
-            })
-    } else
-        simulateRobot(circle, mmCir);
+    } else {
+        Swal.fire({
+            icon: 'error',
+            title: 'Oops...',
+            text: 'No puedes mover las fichas en modo automatico',
+            timer: 500
+        })
+    }
     //updateChart1();
 
 });
@@ -443,8 +455,10 @@ function redrawCanvas() {
     var caller = arguments.callee.caller.name;
     console.log("Redrawing canvas from " + caller);
     //Get the new width and height of the window
-    const newWidth = document.getElementById("contenido").offsetWidth;
-    const newHeight = document.getElementById("contenido").offsetHeight;
+    var marginLeftRight = parseInt(window.getComputedStyle(canvas).marginLeft) * 2;
+    var marginTopBottom = parseInt(window.getComputedStyle(canvas).marginTop) * 2;
+    const newWidth = document.getElementById("contenido").clientWidth - marginLeftRight;
+    const newHeight = document.getElementById("contenido").clientHeight - marginTopBottom;
     //Get the new scale to fit the screen
     scale = Math.min(newWidth, newHeight) / 314;
     //Create the canvas with the new scale
@@ -521,22 +535,22 @@ var chart1 = new Chart(chart1Ctx, {
     type: 'doughnut',
     data: {
         labels: [
-          'Blanco',
-          'Negro'
+            'Blanco',
+            'Negro'
         ],
         datasets: [{
-          label: 'Cantidad de chocopollas',
-          data: [
-            circles.filter(circleF => circleF.color == "white").length,
-            circles.filter(circleF => circleF.color == "black").length
-          ],
-          backgroundColor: [
-            'rgb(175, 175, 175)',
-            'rgb(45, 45, 45)'
-          ],
-          hoverOffset: 4
+            label: 'Cantidad de chocopollas',
+            data: [
+                circles.filter(circleF => circleF.color == "white").length,
+                circles.filter(circleF => circleF.color == "black").length
+            ],
+            backgroundColor: [
+                'rgb(175, 175, 175)',
+                'rgb(45, 45, 45)'
+            ],
+            hoverOffset: 4
         }]
-      },
+    },
     options: {
 
         // Esto está al revés, cuanto más grande el ancho, más pequeño el gráfico xd
@@ -545,7 +559,7 @@ var chart1 = new Chart(chart1Ctx, {
     }
 });
 
-function updateChart1(){
+function updateChart1() {
     chart1.data.datasets[0].data = [
         circles.filter(circleF => circleF.color == "white").length,
         circles.filter(circleF => circleF.color == "black").length

@@ -14,9 +14,7 @@ body {
 }
 
 section{
-    display: flex;
-    flex-direction: row;
-    justify-content: space-evenly;
+
     max-width: 80%;
     margin: 0 auto;
 }
@@ -225,28 +223,9 @@ footer {
     }
 }
 
-@media screen and (max-width: 650px) {
 
-    header picture img {
-        height: 10vh;
-    }
 
-    header p {
-        font-size: 4vw;
-        margin: auto 0;
-    }
-
-    section{
-        flex-direction: column;
-    }
-
-    #mode {
-        font-size: 1000vw;
-    }
-
-}
-
-@media screen and (max-width: 768px) {
+@media screen and (max-width: 1280px) {
 
     header picture img {
         height: 13vw;
@@ -258,7 +237,57 @@ footer {
     }
 
     #mode {
-        font-size: 1000vw;
+        font-size: 3vw;
+    }
+    section{
+
+        display: grid;
+        grid-template-columns: repeat(3,33%);
+        grid-template-areas:
+        "graf canv canv"
+        "graf canv canv";
+
+    }
+    #contenido{
+        grid-area: canv;
+        align-self: center;
+    }
+    #grafics{
+        grid-area: graf;
+    }
+    
+}
+
+@media screen and (max-width: 750px) {
+
+    header picture img {
+        height: 13vw;
+    }
+
+    header p {
+        font-size: 4vw;
+        margin: auto 0;
+    }
+
+    #mode {
+        font-size: 3vw;
+    }
+    section{
+
+        display: grid;
+        grid-template-columns: repeat(1,100%);
+        grid-template-rows: repeat(2, 50%);
+        grid-template-areas:
+        "canv"
+        "graf";
+
+    }
+    #contenido{
+        grid-area: canv;
+        align-self: center;
+    }
+    #grafics{
+        grid-area: graf;
     }
 }
 
@@ -275,19 +304,3 @@ footer {
     
 }
 
-@media screen and (max-width: 1280px) {
-
-    header picture img {
-        height: 13vw;
-    }
-
-    header p {
-        font-size: 4vw;
-        margin: auto 0;
-    }
-
-    #mode {
-        font-size: 3vw;
-    }
-    
-}

@@ -23,8 +23,8 @@ var chart1 = new Chart(chart1Ctx, {
     options: {
 
         // Esto está al revés, cuanto más grande el ancho, más pequeño el gráfico xd
-        responsive: false,
-        maintainAspectRatio: false
+        responsive: true,
+        maintainAspectRatio: true
     }
 });
 
@@ -53,18 +53,16 @@ var chart2 = new Chart(chart2Ctx, {
             label: 'Chocolates por minuto (1h)',
             data: getChart2Data(),
             backgroundColor: [
-                'rgb(175, 175, 175)',
-                'rgb(45, 45, 45)'
+                'blue'
             ],
             borderColor: [
-                'rgb(175, 175, 175)',
-                'rgb(45, 45, 45)'
+                'blue'
             ],
             borderWidth: 1
         }]
     },
     options: {
-        responsive: false,
+        responsive: true,
         scales: {
             y: {
                 beginAtZero: true,
@@ -81,7 +79,7 @@ function getChart2Data() {
     let data = [];
     let hour = new Date().getHours();
     let minute = new Date().getMinutes();
-    for (let i = 0; i < minute; i++) {
+    for (let i = 0; i <= minute; i++) {
         //Filter the timeline by the iterated hour and minute and count the length as if time is epoch
         data.push(timeline.filter(timelineF => {
             let date = new Date(timelineF.time);
